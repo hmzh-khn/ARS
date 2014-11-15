@@ -33,6 +33,25 @@ function GameRenderer(){
 		objectScene,
 		objectCamera,
 		renderer;
+
+
+	var boxes = [];
+	function addBox(x,y,color){
+		var geometry = new THREE.BoxGeometry( 1, 1, 1 );
+		var material = new THREE.MeshBasicMaterial( { color: color } );
+		material.transparent = true;
+		material.blending = THREE.MultiplyBlending;
+		var cube = new THREE.Mesh( geometry, material );
+		cube.position.set(x+0.5, y+0.5, 0);
+		objectScene.add(cube);
+	}
+	function removeBoxes(){
+		for (var i = 0; i < boxes.length; i++) {
+			objectScene.remove(boxes[i]);
+		};
+		boxes = [];
+	}
+
 	gameRenderer = {
 		setup: function setup(){
 			var videoStream = document.getElementById('streamVideo');
@@ -85,26 +104,20 @@ function GameRenderer(){
 			cube4.position.set(25,25,0);
 			objectScene.add(cube4);*/
 
-			function addBox(x,y,color){
-				var geometry = new THREE.BoxGeometry( 1, 1, 1 );
-				var material = new THREE.MeshBasicMaterial( { color: color } );
-				material.transparent = true;
-				material.blending = THREE.MultiplyBlending;
-				var cube = new THREE.Mesh( geometry, material );
-				cube.position.set(x+0.5, y+0.5, 0);
-				objectScene.add(cube);
-			}
-			addBox(8,0,0xff00ff);
-			addBox(9,0,0xff00ff);
-			addBox(10,0,0xff00ff);
-			addBox(10,1,0xff00ff);
-			addBox(14,14,0x0000ff);
 
 			renderer = new THREE.WebGLRenderer({canvas:renderCanvas});
 			renderer.setSize( window.innerWidth, window.innerHeight );
 		},
-		draw: function draw(matrix, imgdata){
-			
+		draw: function draw(matrix){
+			removeBoxes();
+			addBox(board.foodPos.x, board.foodPos.y, 0xffff00);
+			for (var i = 0; i < snake.positions.length; i++) {
+				addBox(snake.positions[i].x, snake.positions[i].y, 0x0000ff);
+			};
+			for (var i = 0; i < snake.digestions.length; i++) {
+				addBox(snake.digestions[i].x, snake.digestions[i].y, 0x00ffff);
+			};
+
 			backgroundTexture.needsUpdate = true;
 			renderer.autoClear = false;
 			renderer.clear();
