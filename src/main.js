@@ -18,20 +18,20 @@ window.onload = function onload() {
 
 console.log(screen.width,screen.height);
 
-	var canvas = document.getElementById("display");
-	canvas.width = screen.width;
-	canvas.height = screen.height;
+	var canvas = document.getElementById("displayCanvas");
+	//canvas.width = screen.width;
+	//canvas.height = screen.height;
 	//ctx = canvas.getContext('2d');
 
 
-	var MILLISECONDS_PER_FRAME = 20;
+	var MILLISECONDS_PER_FRAME = 100;
 	var lastGameStep = performance.now();
 	var nextTurn = null;
 
-	canvas.addEventListener('click',function click1(){
-		requestFullscreen(canvas);
-		canvas.removeEventListener('click',click1);
-		canvas.addEventListener('click',function click2(event){
+	canvas.addEventListener('mousedown',function click1(){
+		requestFullscreen(document.getElementById("fullscreenContainer"));
+		canvas.removeEventListener('mousedown',click1);
+		canvas.addEventListener('mousedown',function click2(event){
 
 			if(event.clientX < screen.width/2){
 				//Left turn
@@ -43,8 +43,22 @@ console.log(screen.width,screen.height);
 				console.log("Right",event.clientX);
 			}
 		})
-	})
-	
+	});
+	window.addEventListener('keydown',function(e) {
+		var key = e.keyCode;
+		var dir = null;
+		console.log(e);
+		switch(key) {
+			case 65: // left
+				nextTurn='left';
+				console.log("Left");
+				break;
+			case 68: // right
+				nextTurn='right';
+				console.log("Right");
+				break;
+		}
+	});
 
 	w.setup(screen.width,screen.height).then(function() {
 		console.log("webcam connected");
@@ -52,6 +66,8 @@ console.log(screen.width,screen.height);
 		compatibility.requestAnimationFrame(step);
 	});
 		
+	var orient = DeviceOrientationDetector();
+	orient.setup();
 
 	var tf = TransformationFinder();
 	var initialMatrix = null;
@@ -80,15 +96,17 @@ console.log(screen.width,screen.height);
 			//
 			if(nowStep>lastGameStep+MILLISECONDS_PER_FRAME){
 				if(nextTurn=='left'){
-					
+					snake.turnRight();
 				}else if(nextTurn=='right'){
-					
+					snake.turnLeft();
 				}
 				nextTurn=null;
 				snake.move();
+
+				lastGameStep=nowStep;
 			}
 
-			gameRenderer.draw(initialMatrix,idata);
+			gameRenderer.draw(initialMatrix, orient.detect());
 			/*if(initialMatrix != null){
 				ctx.fillStyle="green";
 				cornerpts = tf.transformIdealCorners(initialMatrix);
@@ -98,6 +116,7 @@ console.log(screen.width,screen.height);
 					ctx.fillRect(x-1,y-1,2,2);
 				};
 			}*/
+
 		}
 
 		compatibility.requestAnimationFrame(step);

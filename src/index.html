@@ -13,8 +13,10 @@
 		<script src="../lib/jsqrcode/findpat.js"></script>
 		<script src="../lib/jsqrcode/alignpat.js"></script>
 
+
 		<script src="compatibility.js"></script>
 		<script src="accessCam.js"></script>
+		<script src="orientation.js"></script>
 		<script src="transformationFinder.js"></script>
 		<script src="render.js"></script>
 		<script src="snake.js"></script>
@@ -23,13 +25,24 @@
 			#streamVideo, #processCanvas {
 				display:none;
 			}
+			#score{
+				position:absolute;
+				bottom:0;
+				left:0;
+				right:0;
+				height:35px;
+				background-color:black;
+				color:white;
+				font-size:30px;
+			}
 		</style>
 	</head>
 	<body>
 		<video id="streamVideo" autoplay ></video>
 		<canvas id="processCanvas" ></canvas>
 		<div id="fullscreenContainer">
-			<canvas id="display" ></canvas>
+			<canvas id="displayCanvas" ></canvas>
+			<div id="score">Score:</div>
 		</div>
 	</body>
 </html>
