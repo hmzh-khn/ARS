@@ -23,6 +23,11 @@ console.log(screen.width,screen.height);
 	canvas.height = screen.height;
 	//ctx = canvas.getContext('2d');
 
+
+	var MILLISECONDS_PER_FRAME = 20;
+	var lastGameStep = performance.now();
+	var nextTurn = null;
+
 	canvas.addEventListener('click',function click1(){
 		requestFullscreen(canvas);
 		canvas.removeEventListener('click',click1);
@@ -30,9 +35,11 @@ console.log(screen.width,screen.height);
 
 			if(event.clientX < screen.width/2){
 				//Left turn
+				nextTurn='left';
 				console.log("Left",event.clientX);
 			}else{
 				//Right turn
+				nextTurn='right';
 				console.log("Right",event.clientX);
 			}
 		})
@@ -54,6 +61,7 @@ console.log(screen.width,screen.height);
 
 	var step = function step() {
 		if(w.isReady()) {
+			var nowStep = performance.now();
 			var idata = w.getImageData();
 
 			if(initialMatrix) {
@@ -69,6 +77,16 @@ console.log(screen.width,screen.height);
 
 			// draw
 			//ctx.putImageData(idata,0,0);
+			//
+			if(nowStep>lastGameStep+MILLISECONDS_PER_FRAME){
+				if(nextTurn=='left'){
+					
+				}else if(nextTurn=='right'){
+					
+				}
+				nextTurn=null;
+				snake.move();
+			}
 
 			gameRenderer.draw(initialMatrix,idata);
 			/*if(initialMatrix != null){
