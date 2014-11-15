@@ -52,21 +52,40 @@ Snake.prototype.size = function size() {
 	return this.positions.length;
 };
 
-Snake.prototype.turn = function turn(dir) {
-	// change the direction of snake movement
+Snake.prototype.turnLeft = function turnLeft() {
+	// change the direction of snake movement to left
 	// fails if the exact opposite movement
 	switch(dir) {
 		case UP:
+			this.direction = { dx:LEFT, dy:NONE };
+			break;
 		case DOWN:
-			if(this.direction.dy == NONE) {
-				this.direction = { dx:NONE, dy:dir };
-			}
+			this.direction = { dx:RIGHT, dy:NONE };
 			break;
 		case LEFT:
+			this.direction = { dx:NONE, dy:DOWN };
+			break;
 		case RIGHT:
-			if(this.direction.dx == NONE) {
-				this.direction = { dx:dir, dy:NONE };
-			}
+			this.direction = { dx:NONE, dy:UP };
+			break;
+	}
+};
+
+Snake.prototype.turnRight = function turnRight() {
+	// change the direction of snake movement to right
+	// fails if the exact opposite movement
+	switch(dir) {
+		case UP:
+			this.direction = { dx:RIGHT, dy:NONE };
+			break;
+		case DOWN:
+			this.direction = { dx:LEFT, dy:NONE };
+			break;
+		case LEFT:
+			this.direction = { dx:NONE, dy:UP };
+			break;
+		case RIGHT:
+			this.direction = { dx:NONE, dy:DOWN };
 			break;
 	}
 };
