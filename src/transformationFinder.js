@@ -110,7 +110,7 @@ function TransformationFinder(){
 				return matrix;
 			}catch(e){
 				console.log(e);
-				return false
+				return null;
 			}
 		},
 		findCorners: function findCorners(imageData){
@@ -135,7 +135,7 @@ function TransformationFinder(){
 			count = finder.findCorners(imageData);
 			if(count==0) throw new Error("No corners detected");
 
-			result = new Array(idealTransformed.length);
+			result = new Array(idealTransformed.length/2);
 			for (var i = 0, cornernum=0; i < idealTransformed.length; i+=2, cornernum++) {
 				//console.log("Checking ideal ",cornernum,idealTransformed[i],idealTransformed[i+1],idealCorners_dict[i]);
 				var bestDistSq = Infinity;
@@ -164,7 +164,9 @@ function TransformationFinder(){
 			idealTransformed = finder.transformIdealCorners(matrix);
 			matches = finder.matchingCorners(idealTransformed, imageData);
 
-			var ok = ransac(params, homo_kernel, idealCorners_dict, matches, NUM_IDEAL_CORNERS, transform, mask, max_iters);
+			//var ok = ransac(params, homo_kernel, idealCorners_dict, matches, NUM_IDEAL_CORNERS, transform, mask, max_iters);
+			var ok = homo_kernel.run(idealCorners_dict, matches,transform,NUM_IDEAL_CORNERS);
+
 			if(!ok) return false;
 			var values = transform.buffer.f32;
 			matrix.a11 = values[0];
@@ -176,6 +178,7 @@ function TransformationFinder(){
 			matrix.a13 = values[6];
 			matrix.a23 = values[7];
 			matrix.a33 = values[8];
+			return true;
 		},
 		idealCorners:idealCorners,
 		corners:corners,

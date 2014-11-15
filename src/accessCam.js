@@ -25,13 +25,17 @@ function Webcam(){
 					stream = localMediaStream;
 					video.src = window.URL.createObjectURL(localMediaStream);
 
-					resolve();
+					window.setTimeout(resolve,500);
 					// Note: onloadedmetadata doesn't fire in Chrome when using it with getUserMedia.
 					// See crbug.com/110938.
 					//video.onloadedmetadata = resolve;
 				}, reject);
 			});
 		},
+		isReady : function isReady(){
+			return stream && video.readyState == video.HAVE_ENOUGH_DATA;
+		},
+
 		getImageData : function getImageData(){
 			if(stream){
 				ctx.drawImage(video, 0, 0);
