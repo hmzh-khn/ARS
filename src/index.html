@@ -1,0 +1,18 @@
+<!doctype html>
+<html>
+	<head>
+		<script src="../bower_components/bluebird/js/browser/bluebird.js"></script>
+		<script src="compatibility.js"></script>
+		<script src="accessCam.js"></script>
+		<style>
+			#streamVideo, #processCanvas {
+				display:none;
+			}
+		</style>
+	</head>
+	<body>
+		<video id="streamVideo" autoplay width="640" height="360"></video>
+		<canvas id="processCanvas" width="640" height="360"></canvas>
+		<canvas id="display" width="640" height="360"></canvas>
+	</body>
+</html>
