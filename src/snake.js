@@ -3,7 +3,6 @@ var UP = RIGHT = 1,
 	NONE = 0;
 
 var gameOver = false;
-var board;
 
 // make board of height height and width width with (0,0) at bottom left
 function Board(width, height) {
@@ -27,9 +26,6 @@ Board.prototype.placeFood = function placeFood() {
 
 	this.foodPos = new Position(x,y);
 };
-
-
-board = new Board();
 
 
 
@@ -83,6 +79,7 @@ Snake.prototype.move = function move() {
 	var newPos = new Position(newX, newY);
 
 	if(snake.occupies(newPos)) {
+		gameOver = true;
 		alert('You lose!');
 	}
 	else {
@@ -107,6 +104,7 @@ Snake.prototype.move = function move() {
 
 Snake.prototype.eatFood = function eatFood(newPos) {
 	this.digestions.push(newPos);
+	board.placeFood(); // place new food
 }
 
 // return true if the snake is in a position
@@ -126,4 +124,33 @@ var calcNewVar = function(i, delta, upperBound) {
 		return i + delta;
 	}
 };
+
+
+
+
+var board = new Board();
+var snake = new Snake();
+
+
+
+// EVENTS
+document.body.addEventListener(function(e) {
+	var key = e.key;
+	var dir = null;
+	switch(key) {
+		case 37: // left
+			dir = LEFT;
+			break;
+		case 38: // up
+			dir = UP;
+			break;
+		case 39: // right
+			dir = RIGHT;
+			break;
+		case 40: // down
+			dir = DOWN;
+			break;
+	snake.turn(dir);
+	}
+});
 
