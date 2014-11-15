@@ -161,24 +161,30 @@ function TransformationFinder(){
 			//or returns false if the
 			//transformation matrix couldn't be computed
 			
-			idealTransformed = finder.transformIdealCorners(matrix);
-			matches = finder.matchingCorners(idealTransformed, imageData);
+			try{
 
-			//var ok = ransac(params, homo_kernel, idealCorners_dict, matches, NUM_IDEAL_CORNERS, transform, mask, max_iters);
-			var ok = homo_kernel.run(idealCorners_dict, matches,transform,NUM_IDEAL_CORNERS);
+				idealTransformed = finder.transformIdealCorners(matrix);
+				matches = finder.matchingCorners(idealTransformed, imageData);
 
-			if(!ok) return false;
-			var values = transform.buffer.f32;
-			matrix.a11 = values[0];
-			matrix.a21 = values[1];
-			matrix.a31 = values[2];
-			matrix.a12 = values[3];
-			matrix.a22 = values[4];
-			matrix.a32 = values[5];
-			matrix.a13 = values[6];
-			matrix.a23 = values[7];
-			matrix.a33 = values[8];
-			return true;
+				//var ok = ransac(params, homo_kernel, idealCorners_dict, matches, NUM_IDEAL_CORNERS, transform, mask, max_iters);
+				var ok = homo_kernel.run(idealCorners_dict, matches,transform,NUM_IDEAL_CORNERS);
+
+				if(!ok) return false;
+				var values = transform.buffer.f32;
+				matrix.a11 = values[0];
+				matrix.a21 = values[1];
+				matrix.a31 = values[2];
+				matrix.a12 = values[3];
+				matrix.a22 = values[4];
+				matrix.a32 = values[5];
+				matrix.a13 = values[6];
+				matrix.a23 = values[7];
+				matrix.a33 = values[8];
+				return true;
+			}catch(e){
+				console.error(e);
+				return false;
+			}
 		},
 		idealCorners:idealCorners,
 		corners:corners,

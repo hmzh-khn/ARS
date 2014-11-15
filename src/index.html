@@ -1,7 +1,10 @@
 <!doctype html>
 <html>
 	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
 		<script src="../bower_components/bluebird/js/browser/bluebird.js"></script>
+		<script src="../bower_components/threejs/build/three.js"></script>
 		<script src="../lib/jsfeat/build/jsfeat.js"></script>
 
 		<script src="../lib/jsqrcode/version.js"></script>
@@ -13,7 +16,7 @@
 		<script src="compatibility.js"></script>
 		<script src="accessCam.js"></script>
 		<script src="transformationFinder.js"></script>
-		<script src="debug.js"></script>
+		<script src="render.js"></script>
 		<script src="main.js"></script>
 		<style>
 			#streamVideo, #processCanvas {
@@ -22,8 +25,10 @@
 		</style>
 	</head>
 	<body>
-		<video id="streamVideo" autoplay width="640" height="360"></video>
-		<canvas id="processCanvas" width="640" height="360"></canvas>
-		<canvas id="display" width="640" height="360"></canvas>
+		<video id="streamVideo" autoplay ></video>
+		<canvas id="processCanvas" ></canvas>
+		<div id="fullscreenContainer">
+			<canvas id="display" ></canvas>
+		</div>
 	</body>
 </html>
