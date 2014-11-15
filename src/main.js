@@ -23,8 +23,19 @@ console.log(screen.width,screen.height);
 	canvas.height = screen.height;
 	//ctx = canvas.getContext('2d');
 
-	canvas.addEventListener('click',function(){
+	canvas.addEventListener('click',function click1(){
 		requestFullscreen(canvas);
+		canvas.removeEventListener('click',click1);
+		canvas.addEventListener('click',function click2(event){
+
+			if(event.clientX < screen.width/2){
+				//Left turn
+				console.log("Left",event.clientX);
+			}else{
+				//Right turn
+				console.log("Right",event.clientX);
+			}
+		})
 	})
 	
 
