@@ -1,7 +1,4 @@
 ARS: Augmented Reality Snake
-============================
-
-ARS: Augmented Reality Snake
 ===========================
 ### What
 ARS is the classic game of snake, but with a twist. It can be played on paper. We built snake as a precursor to more complicated, three dimensional games which could also be played with a paper. We want to take this further. Imagine a puzzle game in which you had a paper, and you used your phone to solve a puzzle hidden in a building virtually erected above it. ARS became our first step towards these types of games.
